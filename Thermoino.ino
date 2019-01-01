@@ -23,8 +23,6 @@
 #include <WiFi101.h>
 #include <Adafruit_SleepyDog.h>
 
-int keyIndex = 0;                 // your network key Index number (needed only for WEP)
-
 int status = WL_IDLE_STATUS;
 
 // Settings and vars for the relays
@@ -35,6 +33,8 @@ boolean relay_status_2 = HIGH;
 
 WiFiServer http_server(80);
 WiFiClient http_client;
+
+IPAddress ip = WiFi.localIP();
 
 void setup() {
 
@@ -100,14 +100,14 @@ void process_http_request(String path) {
     http_client.println("Status Relay 1: <span id='statusR1' style='color:red; font-weight: bold;'>OFF</span>");
     http_client.println("Status Relay 2: <span id='statusR2' style='color:red; font-weight: bold;'>OFF</span>");
     http_client.println("<hr>Actions: <ul>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_1_on', retR1)\">START Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_1_off', retR1)\">STOP Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_1_toggle', retR1)\">TOGGLE Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_1_status', retR1)\">STATUS Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_2_on', retR2)\">START Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_2_off', retR2)\">STOP Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_2_toggle', retR2)\">TOGGLE Pump Relay</button></li>");
-    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.188.22/relay_2_status', retR2)\">STATUS Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_1_on', retR1)\">START Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_1_off', retR1)\">STOP Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_1_toggle', retR1)\">TOGGLE Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_1_status', retR1)\">STATUS Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_2_on', retR2)\">START Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_2_off', retR2)\">STOP Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_2_toggle', retR2)\">TOGGLE Pump Relay</button></li>");
+    http_client.println("<li><button onclick=\"httpGetAsync('http://192.168.0.29/relay_2_status', retR2)\">STATUS Pump Relay</button></li>");
     http_client.println("</ul>");
   } else if (path == "/relay_1_off") {
     relay_status_1 = HIGH;
@@ -242,7 +242,7 @@ void printWifiStatus() {
   Serial.println(WiFi.SSID());
 
   // print your WiFi shield's IP address:
-  IPAddress ip = WiFi.localIP();
+  ip = WiFi.localIP();
   Serial.print("IP Address: ");
   Serial.println(ip);
 
